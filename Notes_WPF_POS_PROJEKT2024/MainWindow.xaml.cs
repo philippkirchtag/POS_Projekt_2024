@@ -67,9 +67,17 @@ namespace Notes_WPF_POS_PROJEKT2024
             NoteWindow noteWindow = new NoteWindow();
             noteWindow.Title = "Notiz - " + note.Title + " - " + Convert.ToString(note.CreatedDate);
             noteWindow.ContentText = note.Content;
+            noteWindow.TitleText = note.Title;
             //noteWindow.CreatedDate = note.CreatedDate;
             noteWindow.ShowDialog();
         }
 
+        private void onAddBtnClick(object sender, RoutedEventArgs e)
+        {
+            NoteWindow noteWindow = new NoteWindow();
+            noteWindow.Title = "New Note";
+            //noteWindow.CreatedDate = note.CreatedDate;
+            noteWindow.ShowDialog();
+        }
     }
 }

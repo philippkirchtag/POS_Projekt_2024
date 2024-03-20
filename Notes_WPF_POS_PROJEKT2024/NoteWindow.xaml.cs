@@ -19,16 +19,17 @@ namespace Notes_WPF_POS_PROJEKT2024
     /// </summary>
     public partial class NoteWindow : Window
     {
+
         public string TitleText
         {
             //get { return lbl_Title.Text; }
-            set { lbl_title.Content = value; }
+            set { tb_title.Text = value; }
         }
 
         public string ContentText
         {
             //get { return lbl_content.Content; }
-            set { lbl_content.Content = value; }
+            set { tb_content.Text = value; }
         }
 
         public NoteWindow()
