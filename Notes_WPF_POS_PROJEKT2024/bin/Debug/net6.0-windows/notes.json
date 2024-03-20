@@ -1,0 +1,17 @@
+[
+    {
+        "Title": "Einkaufsliste",
+        "Content": "Milch, Brot, Eier",
+        "CreatedDate": "2024-03-12T08:00:00Z"
+    },
+    {
+        "Title": "ToDo",
+        "Content": "Arzttermin vereinbaren, Rechnungen bezahlen",
+        "CreatedDate": "2024-03-10T15:30:00Z"
+    },
+    {
+        "Title": "Notizen für Projekt",
+        "Content": "Ideensammlung, nächste Schritte planen",
+        "CreatedDate": "2024-03-08T10:45:00Z"
+    }
+]

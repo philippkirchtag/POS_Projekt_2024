@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Uh2jXWnZdDAw5jO8MaXRh9+IFl6gDIAobd53fArtmmPfN5obwt9URgnmSbf4yCI/nRM8c023pGFKs4Dz7gQhtQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\phili\\Desktop\\github_projekte\\POS_Projekt_2024\\Notes_WPF_POS_PROJEKT2024\\Notes_WPF_POS_PROJEKT2024.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\phili\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
