@@ -68,8 +68,10 @@ namespace Notes_WPF_POS_PROJEKT2024
             noteWindow.Title = "Notiz - " + note.Title + " - " + Convert.ToString(note.CreatedDate);
             noteWindow.ContentText = note.Content;
             noteWindow.TitleText = note.Title;
+            noteWindow.ID = Convert.ToString(note.NoteID);
             //noteWindow.CreatedDate = note.CreatedDate;
             noteWindow.ShowDialog();
+            deserializeJSON();
         }
 
         private void onAddBtnClick(object sender, RoutedEventArgs e)
@@ -78,6 +80,7 @@ namespace Notes_WPF_POS_PROJEKT2024
             noteWindow.Title = "New Note";
             //noteWindow.CreatedDate = note.CreatedDate;
             noteWindow.ShowDialog();
+            deserializeJSON();
         }
     }
 }
