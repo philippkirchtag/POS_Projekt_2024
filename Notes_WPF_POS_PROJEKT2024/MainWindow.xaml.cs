@@ -46,11 +46,27 @@ namespace Notes_WPF_POS_PROJEKT2024
 
         public void contentAddToLB()
         {
+            int count=lb_Content.Items.Count;
+
             foreach (Note note in notes)
             {
-                // Füge den Content jeder Note zur ListBox hinzu
-                lb_Content.Items.Add($"{note.Title} - (Erstellt am: {note.CreatedDate})");
+                if(note.NoteID>count)
+                {
+                    lb_Content.Items.Add($"{note.Title} - (Erstellt am: {note.CreatedDate})");
+                }
             }
+        }
+
+        public List<string> GetListBoxItems(ListBox listBox)
+        {
+            List<string> items = new List<string>();
+
+            foreach (var item in listBox.Items)
+            {
+                items.Add(item.ToString());
+            }
+
+            return items;
         }
 
         private void NoteSelect(object sender, MouseButtonEventArgs e)
@@ -68,10 +84,11 @@ namespace Notes_WPF_POS_PROJEKT2024
             noteWindow.Title = "Notiz - " + note.Title + " - " + Convert.ToString(note.CreatedDate);
             noteWindow.ContentText = note.Content;
             noteWindow.TitleText = note.Title;
-            noteWindow.ID = Convert.ToString(note.NoteID);
+            noteWindow.ID = note.NoteID;
             //noteWindow.CreatedDate = note.CreatedDate;
             noteWindow.ShowDialog();
             deserializeJSON();
+            contentAddToLB();
         }
 
         private void onAddBtnClick(object sender, RoutedEventArgs e)
@@ -81,6 +98,12 @@ namespace Notes_WPF_POS_PROJEKT2024
             //noteWindow.CreatedDate = note.CreatedDate;
             noteWindow.ShowDialog();
             deserializeJSON();
+            contentAddToLB();
+        }
+
+        private void btn_delete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

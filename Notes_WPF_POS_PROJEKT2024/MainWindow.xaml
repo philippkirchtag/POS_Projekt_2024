@@ -15,6 +15,7 @@
 
         <Label x:Name="lbl_title" Content="Notizen" HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" FontSize="24" Foreground="White"/>
         <ListBox x:Name="lb_Content" Grid.Row="1" Margin="100" MouseDoubleClick="NoteSelect" Background="#FF505050" FontSize="14" Foreground="White"/>
-        <Button x:Name="btn_addnote" Grid.Row="2" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FFE4E4E4" Height="40" Width="170" FontSize="14" FontWeight="Bold" Click="onAddBtnClick"/>
+        <Button x:Name="btn_addnote" Grid.Row="2" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFE4E4E4" Height="40" Width="170" FontSize="14" FontWeight="Bold" Click="onAddBtnClick" Margin="100,0,0,0"/>
+        <Button x:Name="btn_delete" Grid.Row="2" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFE4E4E4" Height="40" Width="170" FontSize="14" FontWeight="Bold" Click="btn_delete_Click" Margin="430,0,0,0"/>
     </Grid>
 </Window>

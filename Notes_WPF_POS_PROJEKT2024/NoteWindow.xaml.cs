@@ -22,6 +22,7 @@ namespace Notes_WPF_POS_PROJEKT2024
     public partial class NoteWindow : Window
     {
         List<Note> notes = new List<Note>();
+        private int noteID;
         public string TitleText
         {
             get { return tb_title.Text; }
@@ -34,10 +35,10 @@ namespace Notes_WPF_POS_PROJEKT2024
             set { tb_content.Text = value; }
         }
 
-        public string ID
+        public int ID
         {
-            get { return lbl_id.Text; }
-            set { lbl_id.Text = value; }
+            get { return noteID; }
+            set { noteID = value; }
         }
 
         public NoteWindow()
@@ -47,6 +48,7 @@ namespace Notes_WPF_POS_PROJEKT2024
 
         private void onSaveBtnClick(object sender, RoutedEventArgs e)
         {
+            bool add = true;
             try
             {
                 string json = File.ReadAllText("notes.json");
@@ -57,19 +59,27 @@ namespace Notes_WPF_POS_PROJEKT2024
                 MessageBox.Show($"Fehler beim Deserialisieren der JSON-Datei: {ex.Message}");
             }
 
-            if(lbl_id.Text=="")
+            if (noteID == 0)
             {
-                lbl_id.Text = Convert.ToString(notes.Count + 1);
+                noteID = notes.Count + 1;
             }
 
             // ein label machen bei erstellen mit id übergeben und dann hier auslesen
             foreach(Note n in notes)
             {
-                if (n.NoteID == Convert.ToInt32(lbl_id.Text)+3)
+                if (n.NoteID == noteID+notes.Count)
                 {
+                    add = false;
                     n.Title = tb_title.Text;
                     n.Content = tb_content.Text;
                 }
+            }
+            if (add)
+            {
+                Note n = new Note();
+                n.Title=tb_title.Text;
+                n.Content=tb_content.Text;
+                notes.Add(n);
             }
 
             try
