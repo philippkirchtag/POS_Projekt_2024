@@ -64,7 +64,6 @@ namespace Notes_WPF_POS_PROJEKT2024
                 noteID = notes.Count + 1;
             }
 
-            // ein label machen bei erstellen mit id übergeben und dann hier auslesen
             foreach(Note n in notes)
             {
                 if (n.NoteID == noteID+notes.Count)

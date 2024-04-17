@@ -33,6 +33,7 @@ namespace Notes_WPF_POS_PROJEKT2024
 
         public void deserializeJSON()
         {
+            notes.Clear();
             try
             {
                 string json = File.ReadAllText("notes.json");
@@ -43,17 +44,30 @@ namespace Notes_WPF_POS_PROJEKT2024
                 MessageBox.Show($"Fehler beim Deserialisieren der JSON-Datei: {ex.Message}");
             }
         }
+        public void serializeJSON()
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(notes, Formatting.Indented);
+                File.WriteAllText("notes.json", json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Daten konnten nicht verarbeitet werden: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         public void contentAddToLB()
         {
-            int count=lb_Content.Items.Count;
+            lb_Content.Items.Clear();
+            //int count=lb_Content.Items.Count;
 
             foreach (Note note in notes)
             {
-                if(note.NoteID>count)
-                {
+                //if(note.NoteID>count)
+                //{
                     lb_Content.Items.Add($"{note.Title} - (Erstellt am: {note.CreatedDate})");
-                }
+                //}
             }
         }
 
@@ -103,7 +117,14 @@ namespace Notes_WPF_POS_PROJEKT2024
 
         private void btn_delete_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lb_Content.SelectedItem != null)
+            {
+                int id = lb_Content.SelectedIndex;
+                notes.Remove(notes[id]);
+            }
+            serializeJSON();
+            deserializeJSON();
+            contentAddToLB();
         }
     }
 }
