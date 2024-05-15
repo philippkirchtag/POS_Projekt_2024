@@ -1,9 +1,7 @@
 package com.mongodb.starter;
 
-import com.mongodb.starter.dtos.PersonDTO;
-import com.mongodb.starter.models.AddressEntity;
-import com.mongodb.starter.models.CarEntity;
-import com.mongodb.starter.models.PersonEntity;
+import com.mongodb.starter.dtos.NoteDTO;
+import com.mongodb.starter.models.NoteEntity;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -12,58 +10,39 @@ import java.util.List;
 @Component
 class TestHelper {
 
-    PersonEntity getMaxEntity() {
-        return new PersonEntity().setFirstName("Maxime")
-                                 .setLastName("Beugnet")
-                                 .setAddress(new AddressEntity().setCity("Paris")
-                                                                .setCountry("France")
-                                                                .setNumber(1)
-                                                                .setPostcode("12345")
-                                                                .setStreet("The Best Street"))
-                                 .setAge(31)
-                                 .setEmail("maxime.beugnet@gmail.com")
-                                 .setInsurance(true)
-                                 .setCars(List.of(new CarEntity().setBrand("Ferrari")
-                                                                 .setMaxSpeedKmH(339f)
-                                                                 .setModel("SF90 Stradale")));
+    NoteEntity getMaxEntity() {
+        return new NoteEntity().setBrand("Ferrari")
+                .setMaxSpeedKmH(339f)
+                .setModel("SF90 Stradale");
     }
 
-    PersonEntity getAlexEntity() {
-        return new PersonEntity().setFirstName("Alex")
-                                 .setLastName("Beugnet")
-                                 .setAddress(new AddressEntity().setCity("Toulouse")
-                                                                .setCountry("France")
-                                                                .setNumber(2)
-                                                                .setPostcode("54321")
-                                                                .setStreet("Another Street"))
-                                 .setAge(27)
-                                 .setInsurance(false)
-                                 .setCars(List.of(new CarEntity().setBrand("Mercedes")
-                                                                 .setMaxSpeedKmH(355f)
-                                                                 .setModel("Project One")));
+    NoteEntity getAlexEntity() {
+        return new NoteEntity().setBrand("Mercedes")
+                .setMaxSpeedKmH(355f)
+                .setModel("Project One");
     }
 
-    PersonDTO getMaxDTO() {
-        return new PersonDTO(getMaxEntity());
+    NoteDTO getMaxDTO() {
+        return new NoteDTO(getMaxEntity());
     }
 
-    public PersonDTO getMaxDTOWithId(ObjectId id) {
-        return new PersonDTO(getMaxEntity().setId(id));
+    public NoteDTO getMaxDTOWithId(ObjectId id) {
+        return new NoteDTO(getMaxEntity().setId(id));
     }
 
-    PersonDTO getAlexDTO() {
-        return new PersonDTO(getAlexEntity());
+    NoteDTO getAlexDTO() {
+        return new NoteDTO(getAlexEntity());
     }
 
-    PersonDTO getAlexDTOWithId(ObjectId id) {
-        return new PersonDTO(getAlexEntity().setId(id));
+    NoteDTO getAlexDTOWithId(ObjectId id) {
+        return new NoteDTO(getAlexEntity().setId(id));
     }
 
-    List<PersonEntity> getListMaxAlexEntity() {
+    List<NoteEntity> getListMaxAlexEntity() {
         return List.of(getMaxEntity(), getAlexEntity());
     }
 
-    List<PersonDTO> getListMaxAlexDTO() {
+    List<NoteDTO> getListMaxAlexDTO() {
         return List.of(getMaxDTO(), getAlexDTO());
     }
 }

@@ -4,16 +4,16 @@ import org.bson.types.ObjectId;
 
 import java.util.Objects;
 
-public class CarEntity {
+public class NoteEntity {
     private ObjectId id;
     private String brand;
     private String model;
     private Float maxSpeedKmH;
 
-    public CarEntity() {
+    public NoteEntity() {
     }
 
-    public CarEntity(ObjectId id, String brand, String model, Float maxSpeedKmH) {
+    public NoteEntity(ObjectId id, String brand, String model, Float maxSpeedKmH) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -24,7 +24,7 @@ public class CarEntity {
         return id;
     }
 
-    public CarEntity setId(ObjectId id) {
+    public NoteEntity setId(ObjectId id) {
         this.id = id;
         return this;
     }
@@ -33,7 +33,7 @@ public class CarEntity {
         return brand;
     }
 
-    public CarEntity setBrand(String brand) {
+    public NoteEntity setBrand(String brand) {
         this.brand = brand;
         return this;
     }
@@ -42,7 +42,7 @@ public class CarEntity {
         return model;
     }
 
-    public CarEntity setModel(String model) {
+    public NoteEntity setModel(String model) {
         this.model = model;
         return this;
     }
@@ -51,7 +51,7 @@ public class CarEntity {
         return maxSpeedKmH;
     }
 
-    public CarEntity setMaxSpeedKmH(Float maxSpeedKmH) {
+    public NoteEntity setMaxSpeedKmH(Float maxSpeedKmH) {
         this.maxSpeedKmH = maxSpeedKmH;
         return this;
     }
@@ -65,9 +65,9 @@ public class CarEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CarEntity carEntity = (CarEntity) o;
-        return Objects.equals(brand, carEntity.brand) && Objects.equals(model, carEntity.model) && Objects.equals(
-                maxSpeedKmH, carEntity.maxSpeedKmH);
+        NoteEntity noteEntity = (NoteEntity) o;
+        return Objects.equals(brand, noteEntity.brand) && Objects.equals(model, noteEntity.model) && Objects.equals(
+                maxSpeedKmH, noteEntity.maxSpeedKmH);
     }
 
     @Override

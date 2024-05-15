@@ -9,92 +9,87 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReplaceOneModel;
-import com.mongodb.starter.models.CarEntity;
+import com.mongodb.starter.models.NoteEntity;
 import jakarta.annotation.PostConstruct;
 import org.bson.BsonDocument;
-import org.bson.BsonNull;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Aggregates.group;
-import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.in;
-import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.ReturnDocument.AFTER;
 
 @Repository
-public class MongoDBCarRepository implements CarRepository {
+public class MongoDBNoteRepository implements NoteRepository {
     private static final TransactionOptions txnOptions = TransactionOptions.builder()
             .readPreference(ReadPreference.primary())
             .readConcern(ReadConcern.MAJORITY)
             .writeConcern(WriteConcern.MAJORITY)
             .build();
     private final MongoClient client;
-    private MongoCollection<CarEntity> carCollection;
+    private MongoCollection<NoteEntity> noteCollection;
 
-    public MongoDBCarRepository(MongoClient mongoClient) {
+    public MongoDBNoteRepository(MongoClient mongoClient) {
         this.client = mongoClient;
     }
 
     @PostConstruct
     void init() {
-        carCollection = client.getDatabase("test").getCollection("cars", CarEntity.class);
+        noteCollection = client.getDatabase("test").getCollection("notes", NoteEntity.class);
     }
 
     @Override
-    public CarEntity save(CarEntity carEntity) {
-        carEntity.setId(new ObjectId());
-        carCollection.insertOne(carEntity);
-        return carEntity;
+    public NoteEntity save(NoteEntity noteEntity) {
+        noteEntity.setId(new ObjectId());
+        noteCollection.insertOne(noteEntity);
+        return noteEntity;
     }
 
     @Override
-    public List<CarEntity> saveAll(List<CarEntity> carEntities) {
+    public List<NoteEntity> saveAll(List<NoteEntity> noteEntities) {
         try (ClientSession clientSession = client.startSession()) {
             return clientSession.withTransaction(() -> {
-                carEntities.forEach(p -> p.setId(new ObjectId()));
-                carCollection.insertMany(clientSession, carEntities);
-                return carEntities;
+                noteEntities.forEach(p -> p.setId(new ObjectId()));
+                noteCollection.insertMany(clientSession, noteEntities);
+                return noteEntities;
             }, txnOptions);
         }
     }
 
     @Override
-    public List<CarEntity> findAll() {
-        return carCollection.find().into(new ArrayList<>());
+    public List<NoteEntity> findAll() {
+        return noteCollection.find().into(new ArrayList<>());
     }
 
     @Override
-    public List<CarEntity> findAll(List<String> ids) {
-        return carCollection.find(in("_id", mapToObjectIds(ids))).into(new ArrayList<>());
+    public List<NoteEntity> findAll(List<String> ids) {
+        return noteCollection.find(in("_id", mapToObjectIds(ids))).into(new ArrayList<>());
     }
 
     @Override
-    public CarEntity findOne(String id) {
-        return carCollection.find(eq("_id", new ObjectId(id))).first();
+    public NoteEntity findOne(String id) {
+        return noteCollection.find(eq("_id", new ObjectId(id))).first();
     }
 
     @Override
     public long count() {
-        return carCollection.countDocuments();
+        return noteCollection.countDocuments();
     }
 
     @Override
     public long delete(String id) {
-        return carCollection.deleteOne(eq("_id", new ObjectId(id))).getDeletedCount();
+        return noteCollection.deleteOne(eq("_id", new ObjectId(id))).getDeletedCount();
     }
 
     @Override
     public long delete(List<String> ids) {
         try (ClientSession clientSession = client.startSession()) {
             return clientSession.withTransaction(
-                    () -> carCollection.deleteMany(clientSession, in("_id", mapToObjectIds(ids))).getDeletedCount(),
+                    () -> noteCollection.deleteMany(clientSession, in("_id", mapToObjectIds(ids))).getDeletedCount(),
                     txnOptions);
         }
     }
@@ -103,25 +98,25 @@ public class MongoDBCarRepository implements CarRepository {
     public long deleteAll() {
         try (ClientSession clientSession = client.startSession()) {
             return clientSession.withTransaction(
-                    () -> carCollection.deleteMany(clientSession, new BsonDocument()).getDeletedCount(), txnOptions);
+                    () -> noteCollection.deleteMany(clientSession, new BsonDocument()).getDeletedCount(), txnOptions);
         }
     }
 
     @Override
-    public CarEntity update(CarEntity carEntity) {
+    public NoteEntity update(NoteEntity noteEntity) {
         FindOneAndReplaceOptions options = new FindOneAndReplaceOptions().returnDocument(AFTER);
-        return carCollection.findOneAndReplace(eq("_id", carEntity.getId()), carEntity, options);
+        return noteCollection.findOneAndReplace(eq("_id", noteEntity.getId()), noteEntity, options);
     }
 
     @Override
-    public long update(List<CarEntity> carEntities) {
-        List<ReplaceOneModel<CarEntity>> writes = carEntities.stream()
+    public long update(List<NoteEntity> noteEntities) {
+        List<ReplaceOneModel<NoteEntity>> writes = noteEntities.stream()
                 .map(p -> new ReplaceOneModel<>(eq("_id", p.getId()),
                         p))
                 .toList();
         try (ClientSession clientSession = client.startSession()) {
             return clientSession.withTransaction(
-                    () -> carCollection.bulkWrite(clientSession, writes).getModifiedCount(), txnOptions);
+                    () -> noteCollection.bulkWrite(clientSession, writes).getModifiedCount(), txnOptions);
         }
     }
 
