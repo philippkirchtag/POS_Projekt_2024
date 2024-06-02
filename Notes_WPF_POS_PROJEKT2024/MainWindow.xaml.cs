@@ -2,24 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Notes_WPF_POS_PROJEKT2024
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         List<Note> notes = new List<Note>();
@@ -27,104 +18,72 @@ namespace Notes_WPF_POS_PROJEKT2024
         public MainWindow()
         {
             InitializeComponent();
-            deserializeJSON();
+            LoadNotesAsync();
+        }
+
+        private async void LoadNotesAsync()
+        {
+            notes = await NoteService.GetNotesAsync();
             contentAddToLB();
         }
 
-        public void deserializeJSON()
+        private async void onAddBtnClick(object sender, RoutedEventArgs e)
         {
-            notes.Clear();
-            try
+            NoteWindow noteWindow = new NoteWindow();
+            noteWindow.Title = "New Note";
+            noteWindow.ShowDialog();
+
+            if (noteWindow.DialogResult == true)
             {
-                string json = File.ReadAllText("notes.json");
-                notes = JsonConvert.DeserializeObject<List<Note>>(json);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fehler beim Deserialisieren der JSON-Datei: {ex.Message}");
+                Note newNote = new Note
+                {
+                    Title = noteWindow.TitleText,
+                    Content = noteWindow.ContentText
+                };
+                await NoteService.AddNoteAsync(newNote);
+                LoadNotesAsync();
             }
         }
-        public void serializeJSON()
+
+        private async void btn_delete_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (lb_Content.SelectedItem != null)
             {
-                string json = JsonConvert.SerializeObject(notes, Formatting.Indented);
-                File.WriteAllText("notes.json", json);
+                Note selectedNote = notes[lb_Content.SelectedIndex];
+                await NoteService.DeleteNoteAsync(selectedNote.Id);
+                LoadNotesAsync();
             }
-            catch (Exception ex)
+        }
+
+        private async void NoteSelect(object sender, MouseButtonEventArgs e)
+        {
+            if (lb_Content.SelectedItem != null)
             {
-                MessageBox.Show($"Daten konnten nicht verarbeitet werden: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                Note selectedNote = notes[lb_Content.SelectedIndex];
+                NoteWindow noteWindow = new NoteWindow();
+                noteWindow.Title = "Notiz - " + selectedNote.Title + " - " + Convert.ToString(selectedNote.CreatedDate);
+                noteWindow.ContentText = selectedNote.Content;
+                noteWindow.TitleText = selectedNote.Title;
+                noteWindow.ID = selectedNote.Id;
+                noteWindow.ShowDialog();
+
+                if (noteWindow.DialogResult == true)
+                {
+                    selectedNote.Title = noteWindow.TitleText;
+                    selectedNote.Content = noteWindow.ContentText;
+                    await NoteService.UpdateNoteAsync(selectedNote);
+                    LoadNotesAsync();
+                }
             }
         }
 
         public void contentAddToLB()
         {
             lb_Content.Items.Clear();
-            //int count=lb_Content.Items.Count;
-
             foreach (Note note in notes)
             {
-                //if(note.NoteID>count)
-                //{
-                    lb_Content.Items.Add($"{note.Title} - (Erstellt am: {note.CreatedDate})");
-                //}
+                lb_Content.Items.Add($"{note.Title} - (Erstellt am: {note.CreatedDate})");
             }
-        }
-
-        public List<string> GetListBoxItems(ListBox listBox)
-        {
-            List<string> items = new List<string>();
-
-            foreach (var item in listBox.Items)
-            {
-                items.Add(item.ToString());
-            }
-
-            return items;
-        }
-
-        private void NoteSelect(object sender, MouseButtonEventArgs e)
-        {
-            if (lb_Content.SelectedItem != null)
-            {
-                Note selectedNote = notes[lb_Content.SelectedIndex];
-                ShowNoteWindow(selectedNote);
-            }
-        }
-
-        private void ShowNoteWindow(Note note)
-        {
-            NoteWindow noteWindow = new NoteWindow();
-            noteWindow.Title = "Notiz - " + note.Title + " - " + Convert.ToString(note.CreatedDate);
-            noteWindow.ContentText = note.Content;
-            noteWindow.TitleText = note.Title;
-            noteWindow.ID = note.NoteID;
-            //noteWindow.CreatedDate = note.CreatedDate;
-            noteWindow.ShowDialog();
-            deserializeJSON();
-            contentAddToLB();
-        }
-
-        private void onAddBtnClick(object sender, RoutedEventArgs e)
-        {
-            NoteWindow noteWindow = new NoteWindow();
-            noteWindow.Title = "New Note";
-            //noteWindow.CreatedDate = note.CreatedDate;
-            noteWindow.ShowDialog();
-            deserializeJSON();
-            contentAddToLB();
-        }
-
-        private void btn_delete_Click(object sender, RoutedEventArgs e)
-        {
-            if (lb_Content.SelectedItem != null)
-            {
-                int id = lb_Content.SelectedIndex;
-                notes.Remove(notes[id]);
-            }
-            serializeJSON();
-            deserializeJSON();
-            contentAddToLB();
         }
     }
 }

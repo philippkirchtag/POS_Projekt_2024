@@ -73,5 +73,5 @@ public class NoteServiceImpl implements NoteService {
     public long update(List<NoteDTO> noteEntities) {
         return noteRepository.update(noteEntities.stream().map(NoteDTO::toNoteEntity).toList());
     }
-
 }
+

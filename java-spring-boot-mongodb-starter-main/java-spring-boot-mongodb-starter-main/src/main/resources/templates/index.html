@@ -1,91 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notiz-Manager</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #2b2b2b; /* Dunkelgrauer Hintergrund */
-        color: white; /* Weiße Schrift */
-        padding-top: 60px; /* Platz für die obere Leiste */
-        padding-bottom: 60px; /* Platz für die untere Leiste */
-        margin: 0;
-    }
-    .header, .footer {
-        position: fixed;
-        left: 0;
-        right: 0;
-        height: 50px; /* Höhe der Leisten */
-        background-color: #333; /* Dunkelgrauer Hintergrund für Leisten */
-        color: white; /* Weiße Schrift */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px; /* Abgerundete Ecken */
-    }
-    .header {
-        top: 0;
-    }
-    .footer {
-        bottom: 0;
-    }
-    #notes-container {
-        max-width: 600px;
-        margin: 110px auto; /* Abstand von den Leisten */
-        background-color: #f9f9f9; /* Heller Hintergrund für Notizen */
-        padding: 20px;
-        border-radius: 10px; /* Abgerundete Ecken */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-    .note {
-        border: 1px solid #555;
-        margin-bottom: 10px;
-        padding: 10px;
-        cursor: pointer;
-        border-radius: 5px; /* Abgerundete Ecken */
-        background-color: #333; /* Dunkler Hintergrund für Notizen */
-    }
-    .note-title {
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: white; /* Weiße Schrift für Notiztitel */
-    }
-    .note-title:hover {
-        text-decoration: underline;
-    }
-    .note-content input[type="text"] {
-        width: calc(100% - 20px);
-        margin-bottom: 5px;
-        padding: 5px;
-    }
-    .note-content button {
-        padding: 5px 10px;
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        cursor: pointer;
-    }
-    .note-content button:hover {
-        background-color: #45a049;
-    }
-    .add-note-form input[type="text"] {
-        width: calc(100% - 80px);
-        margin-bottom: 5px;
-        padding: 5px;
-    }
-    .add-note-form button {
-        padding: 5px 10px;
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        cursor: pointer;
-    }
-    .add-note-form button:hover {
-        background-color: #45a049;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notiz-Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2b2b2b; /* Dunkelgrauer Hintergrund */
+            color: white; /* Weiße Schrift */
+            padding-top: 60px; /* Platz für die obere Leiste */
+            padding-bottom: 60px; /* Platz für die untere Leiste */
+            margin: 0;
+        }
+        .header, .footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 50px; /* Höhe der Leisten */
+            background-color: #333; /* Dunkelgrauer Hintergrund für Leisten */
+            color: white; /* Weiße Schrift */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px; /* Abgerundete Ecken */
+        }
+        .header {
+            top: 0;
+        }
+        .footer {
+            bottom: 0;
+        }
+        #notes-container {
+            max-width: 600px;
+            margin: 110px auto; /* Abstand von den Leisten */
+            background-color: #f9f9f9; /* Heller Hintergrund für Notizen */
+            padding: 20px;
+            border-radius: 10px; /* Abgerundete Ecken */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .note {
+            border: 1px solid #555;
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px; /* Abgerundete Ecken */
+            background-color: #333; /* Dunkler Hintergrund für Notizen */
+        }
+        .note-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white; /* Weiße Schrift für Notiztitel */
+        }
+        .note-title:hover {
+            text-decoration: underline;
+        }
+        .note-content input[type="text"] {
+            width: calc(100% - 20px);
+            margin-bottom: 5px;
+            padding: 5px;
+        }
+        .note-content button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .note-content button:hover {
+            background-color: #45a049;
+        }
+        .add-note-form input[type="text"] {
+            width: calc(100% - 80px);
+            margin-bottom: 5px;
+            padding: 5px;
+        }
+        .add-note-form button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .add-note-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
@@ -106,32 +106,35 @@
 <div class="footer">POS - Projekt Notizapp</div>
 
 <script>
-    // Simulierte Notizdaten
-    let notesData = [
-        { id: 1, title: "Notiz 1", content: "Inhalt der Notiz 1", createdAt: "2024-04-26" },
-        { id: 2, title: "Notiz 2", content: "Inhalt der Notiz 2", createdAt: "2024-04-25" },
-        { id: 3, title: "Notiz 3", content: "Inhalt der Notiz 3", createdAt: "2024-04-24" }
-    ];
+    const baseUrl = 'http://localhost:8080'; // Update with your API URL
 
     // Funktion zum Anzeigen aller Notizen
-    function displayNotes() {
-        const notesContainer = document.getElementById('notes');
-        notesContainer.innerHTML = '';
-        notesData.forEach(note => {
-            const noteDiv = document.createElement('div');
-            noteDiv.className = 'note';
-            noteDiv.innerHTML = `
-                <div class="note-title" onclick="toggleNoteContent(this, ${note.id})">
-                    ${note.title}
-                </div>
-                <div class="note-content" style="display: none;">
-                    <input type="text" id="note-content-${note.id}" value="${note.content}">
-                    <button onclick="saveNoteContent(${note.id})">Speichern</button>
-                    <button onclick="deleteNote(${note.id})">Löschen</button>
-                </div>
-            `;
-            notesContainer.appendChild(noteDiv);
-        });
+    async function displayNotes() {
+        try {
+            const response = await fetch(`${baseUrl}/notes`);
+            if (!response.ok) throw new Error('Netzwerkantwort war nicht in Ordnung');
+            const notesData = await response.json();
+
+            const notesContainer = document.getElementById('notes');
+            notesContainer.innerHTML = '';
+            notesData.forEach(note => {
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'note';
+                noteDiv.innerHTML = `
+                    <div class="note-title" onclick="toggleNoteContent(this, ${note.id})">
+                        ${note.title}
+                    </div>
+                    <div class="note-content" style="display: none;">
+                        <input type="text" id="note-content-${note.id}" value="${note.content}">
+                        <button onclick="saveNoteContent(${note.id})">Speichern</button>
+                        <button onclick="deleteNote(${note.id})">Löschen</button>
+                    </div>
+                `;
+                notesContainer.appendChild(noteDiv);
+            });
+        } catch (error) {
+            console.error('Fehler beim Abrufen der Notizen:', error);
+        }
     }
 
     // Funktion zum Anzeigen/Verstecken des Inhalts einer Notiz
@@ -147,41 +150,67 @@
     }
 
     // Funktion zum Hinzufügen einer neuen Notiz
-    function addNote() {
+    async function addNote() {
         const newTitle = document.getElementById('new-note-title').value;
         const newContent = document.getElementById('new-note-content').value;
         if (newTitle && newContent) {
             const newNote = {
-                id: notesData.length + 1,
                 title: newTitle,
-                content: newContent,
-                createdAt: new Date().toISOString().split('T')[0]
+                content: newContent
             };
-            notesData.push(newNote);
-            displayNotes();
-            // Zurücksetzen der Eingabefelder
-            document.getElementById('new-note-title').value = '';
-            document.getElementById('new-note-content').value = '';
+
+            try {
+                const response = await fetch(`${baseUrl}/note`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newNote)
+                });
+                if (!response.ok) throw new Error('Netzwerkantwort war nicht in Ordnung');
+                await displayNotes();
+                // Zurücksetzen der Eingabefelder
+                document.getElementById('new-note-title').value = '';
+                document.getElementById('new-note-content').value = '';
+            } catch (error) {
+                console.error('Fehler beim Hinzufügen der Notiz:', error);
+            }
         } else {
             alert('Bitte geben Sie einen Titel und Inhalt für die Notiz ein.');
         }
     }
 
     // Funktion zum Bearbeiten des Inhalts einer Notiz
-    function saveNoteContent(noteId) {
+    async function saveNoteContent(noteId) {
         const contentElement = document.getElementById(`note-content-${noteId}`);
         const newContent = contentElement.value;
-        const noteIndex = notesData.findIndex(note => note.id === noteId);
-        if (noteIndex !== -1) {
-            notesData[noteIndex].content = newContent;
-            displayNotes();
+
+        try {
+            const response = await fetch(`${baseUrl}/note/${noteId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content: newContent })
+            });
+            if (!response.ok) throw new Error('Netzwerkantwort war nicht in Ordnung');
+            await displayNotes();
+        } catch (error) {
+            console.error('Fehler beim Speichern der Notiz:', error);
         }
     }
 
     // Funktion zum Löschen einer Notiz
-    function deleteNote(noteId) {
-        notesData = notesData.filter(note => note.id !== noteId);
-        displayNotes();
+    async function deleteNote(noteId) {
+        try {
+            const response = await fetch(`${baseUrl}/note/${noteId}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) throw new Error('Netzwerkantwort war nicht in Ordnung');
+            await displayNotes();
+        } catch (error) {
+            console.error('Fehler beim Löschen der Notiz:', error);
+        }
     }
 
     // Notizen beim Laden der Seite anzeigen
