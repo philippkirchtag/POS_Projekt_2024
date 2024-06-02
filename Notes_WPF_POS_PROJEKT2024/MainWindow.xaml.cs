@@ -61,7 +61,7 @@ namespace Notes_WPF_POS_PROJEKT2024
             {
                 Note selectedNote = notes[lb_Content.SelectedIndex];
                 NoteWindow noteWindow = new NoteWindow();
-                noteWindow.Title = "Notiz - " + selectedNote.Title + " - " + Convert.ToString(selectedNote.CreatedDate);
+                noteWindow.Title = "Notiz - " + selectedNote.Title;// + " - " + Convert.ToString(selectedNote.CreatedDate)
                 noteWindow.ContentText = selectedNote.Content;
                 noteWindow.TitleText = selectedNote.Title;
                 noteWindow.ID = selectedNote.Id;
@@ -82,7 +82,7 @@ namespace Notes_WPF_POS_PROJEKT2024
             lb_Content.Items.Clear();
             foreach (Note note in notes)
             {
-                lb_Content.Items.Add($"{note.Title} - (Erstellt am: {note.CreatedDate})");
+                lb_Content.Items.Add($"{note.Title}");// - (Erstellt am: {note.CreatedDate})
             }
         }
     }
